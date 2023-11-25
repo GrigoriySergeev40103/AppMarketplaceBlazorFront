@@ -1,0 +1,959 @@
+﻿:root {
+    --primary-colour: rgba(162, 89, 255, 1);
+    --neutral-dark: rgba(18, 18, 18, 1);
+    --whte: rgba(245, 247, 250, 1);
+    --green: rgba(82, 211, 119, 1);
+    --yellow: rgba(250, 154, 42, 1);
+    --red: rgba(238, 50, 50, 1);
+    --black-1: rgba(28, 29, 33, 1);
+    --black-2: rgba(27, 27, 27, 1);
+    --bg: rgba(245, 247, 250, 1);
+    --input-field-text: rgba(119, 126, 144, 1);
+    --neutralwhite: rgba(255, 255, 255, 1);
+    --greytransparent: rgba(255, 255, 255, 0);
+    --card-bg: rgba(27, 27, 27, 1);
+    --blackblack: rgba(29, 29, 31, 1);
+    --gg-font-family: "PlusJakarta Sans-Regular", Helvetica;
+    --gg-font-weight: 400;
+    --gg-font-size: 24px;
+    --gg-letter-spacing: 0.36px;
+    --gg-line-height: 145.00000476837158%;
+    --gg-font-style: normal;
+    --para2-semi-14px-font-family: "PlusJakarta Sans-SemiBold", Helvetica;
+    --para2-semi-14px-font-weight: 600;
+    --para2-semi-14px-font-size: 14px;
+    --para2-semi-14px-letter-spacing: 0px;
+    --para2-semi-14px-line-height: 21px;
+    --para2-semi-14px-font-style: normal;
+}
+
+
+.app-market {
+    background-color: #121212;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+/*----------------------------Card css----------------------------*/
+.card-text{
+    color: white
+}
+
+.card-info-grid {
+    padding: 5px;
+    display: flex;
+    width: min-content;
+    flex-direction: column;
+    background-color: #00000033;
+    border-radius: 0px 0px 21.41px 21.41px;
+    backdrop-filter: blur(143.45px) brightness(100%);
+}
+
+.upper-card-info {
+    align-items: flex-start;
+    justify-content: left;
+    border-radius: 21.41px;
+}
+
+.lower-card-info{
+    display:grid;
+    grid-template-columns: 0.5fr 1fr 1fr;
+}
+
+.creator{
+    display:flex;
+    flex-direction:column;
+    padding:10px;
+}
+
+.price {
+    padding:10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.developer-label{
+    font-size:12px;
+    color: white;
+    opacity: 0.6;
+}
+
+.developer-name{
+    color: white;
+    font-size:14px;
+}
+
+.devoloper-icon {
+    padding: 10px;
+    max-width: 50px;
+    max-height: 50px;
+    align-self: center;
+}
+
+.price-label {
+    font-size: 12px;
+    color: white;
+    opacity: 0.6;
+}
+/*----------------------------Card css----------------------------*/
+.app-market .div {
+    background-color: var(--neutral-dark);
+    width: 1512px;
+    height: 2273px;
+    position: relative;
+}
+
+    .app-market .overlap {
+        position: absolute;
+        width: 1512px;
+        height: 513px;
+        top: 0;
+        left: 0;
+    }
+
+    .app-market .frame {
+        position: absolute;
+        width: 1512px;
+        height: 118px;
+        top: 0;
+        left: 0;
+        background-color: var(--neutral-dark);
+    }
+
+    .app-market .text-wrapper {
+        position: absolute;
+        top: 34px;
+        left: 101px;
+        font-family: "Barlow-Bold", Helvetica;
+        font-weight: 700;
+        color: #ffffff;
+        font-size: 40px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .app-market .frame-wrapper {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 339px;
+        position: absolute;
+        top: 46px;
+        left: 468px;
+    }
+
+    .app-market .div-wrapper {
+        display: inline-flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 63px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-2 {
+        position: relative;
+        width: fit-content;
+        margin-top: -1px;
+        font-family: "Barlow-SemiBold", Helvetica;
+        font-weight: 600;
+        color: var(--whte);
+        font-size: 22px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .app-market .frame-2 {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        position: absolute;
+        top: 46px;
+        left: 1355px;
+    }
+
+    .app-market .ic-round-search {
+        position: relative;
+        width: 36px;
+        height: 36px;
+    }
+
+    .app-market .ellipse {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        object-fit: cover;
+    }
+
+    .app-market .frame-3 {
+        position: absolute;
+        width: 1512px;
+        height: 397px;
+        top: 116px;
+        left: 0;
+        background-color: #0000004a;
+        background-image: url(./img/frame-162857.png);
+        background-size: cover;
+        background-position: 50% 50%;
+    }
+
+    .app-market .frame-4 {
+        position: absolute;
+        width: 205px;
+        height: 930px;
+        top: 606px;
+        left: 0;
+        overflow: hidden;
+    }
+
+    .app-market .text-wrapper-3 {
+        position: absolute;
+        width: 373px;
+        top: -1px;
+        left: 19px;
+        color: #ffffff;
+        font-size: 32px;
+        line-height: 21px;
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        letter-spacing: 0;
+    }
+
+    .app-market .checkbox-variants {
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        top: 44px;
+        left: 19px;
+    }
+
+    .app-market .checkbox-parent {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 5px 0px;
+        position: relative;
+        flex: 0 0 auto;
+        background-color: var(--greytransparent);
+    }
+
+    .app-market .wrapper {
+        display: inline-flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 2px 0px 0px;
+        position: relative;
+        align-self: stretch;
+        flex: 0 0 auto;
+    }
+
+    .app-market .checkmark {
+        position: relative;
+        /*width: 16px;
+        height: 16px;*/
+    }
+
+    .app-market .text-block {
+        margin-top: -1px;
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        color: #ffffff;
+        font-size: 16px;
+        line-height: 21px;
+        white-space: nowrap;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .checkbox-parent-wrapper {
+        top: 75px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .checkbox-variants-2 {
+        top: 106px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .checkbox-variants-3 {
+        top: 137px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .checkbox-variants-4 {
+        top: 168px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .checkbox-variants-5 {
+        top: 199px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .checkbox-variants-6 {
+        top: 230px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .checkbox-variants-7 {
+        top: 261px;
+        display: inline-flex;
+        align-items: flex-start;
+        position: absolute;
+        left: 19px;
+    }
+
+    .app-market .frame-5 {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 14px;
+        position: absolute;
+        top: 536px;
+        left: 623px;
+    }
+
+    .app-market .frame-6 {
+        position: relative;
+        width: 465px;
+        height: 47px;
+        border-radius: 3px;
+        overflow: hidden;
+        border: 1px solid;
+        border-color: #ffffffb2;
+    }
+
+    .app-market .frame-7 {
+        display: inline-flex;
+        align-items: center;
+        gap: 25px;
+        position: relative;
+        top: 12px;
+        left: 19px;
+    }
+
+    .app-market .search {
+        position: relative;
+        width: 24px;
+        height: 24px;
+    }
+
+    .app-market .p {
+        color: #ffffff80;
+        font-size: 12px;
+        line-height: 19.3px;
+        position: relative;
+        width: fit-content;
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .app-market .frame-8 {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 7.5px 21px;
+        position: relative;
+        flex: 0 0 auto;
+        border-radius: 3px;
+        overflow: hidden;
+        border: 1px solid;
+        border-color: #ffffffb2;
+    }
+
+    .app-market .text-wrapper-4 {
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        color: #ffffff;
+        font-size: 14px;
+        line-height: 22.5px;
+        white-space: nowrap;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .gridicons-dropdown {
+        position: relative;
+        width: 32px;
+        height: 32px;
+    }
+
+    .app-market .img {
+        position: relative;
+        width: 167px;
+        height: 49px;
+        margin-top: -1px;
+        margin-bottom: -1px;
+        margin-right: -1px;
+    }
+
+    .app-market .overlap-group {
+        position: absolute;
+        width: 1130px;
+        height: 1003px;
+        top: 606px;
+        left: 339px;
+    }
+
+    .app-market .group {
+        position: absolute;
+        width: 1130px;
+        height: 1003px;
+        top: 0;
+        left: 0;
+    }
+
+    .app-market .cards {
+        position: absolute;
+        width: 360px;
+        height: 483px;
+        top: 0;
+        left: 0;
+    }
+
+    .app-market .overlap-group-2 {
+        position: relative;
+        width: 646px;
+        height: 770px;
+        top: -143px;
+        left: -143px;
+        background-image: url(./img/mask-group-5.png);
+        background-size: 100% 100%;
+    }
+
+    .app-market .text-wrapper-5 {
+        position: relative;
+        width: 285.83px;
+        margin-top: -1.07px;
+        font-family: "Barlow-Bold", Helvetica;
+        font-weight: 700;
+        color: var(--bg);
+        font-size: 17.1px;
+        letter-spacing: 0.34px;
+        line-height: 32.1px;
+    }
+
+    .app-market .creator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10.71px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .ellipse-2 {
+        position: relative;
+        width: 34.26px;
+        height: 34.26px;
+        object-fit: cover;
+    }
+
+    .app-market .frame-9 {
+        display: flex;
+        flex-direction: column;
+        width: 125.25px;
+        height: 49.24px;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 4.28px;
+        position: relative;
+    }
+
+    .app-market .text-wrapper-6 {
+        position: relative;
+        width: fit-content;
+        opacity: 0.6;
+        font-family: "Barlow-Medium", Helvetica;
+        font-weight: 500;
+        color: var(--bg);
+        font-size: 12.8px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .app-market .text-wrapper-7 {
+        margin-right: -8.75px;
+        font-family: "Barlow-Medium", Helvetica;
+        font-weight: 500;
+        color: var(--bg);
+        font-size: 15px;
+        line-height: normal;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .price {
+        display: flex;
+        flex-direction: column;
+        width: 89.92px;
+        height: 49.24px;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 4.28px;
+        position: relative;
+    }
+
+    .app-market .text-wrapper-8 {
+        opacity: 0.6;
+        font-family: "Barlow-Medium", Helvetica;
+        font-weight: 500;
+        color: var(--bg);
+        font-size: 12.8px;
+        text-align: right;
+        line-height: normal;
+        white-space: nowrap;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .text-wrapper-9 {
+        margin-left: -7.08px;
+        font-family: "Barlow-Bold", Helvetica;
+        font-weight: 700;
+        color: var(--bg);
+        font-size: 19.3px;
+        line-height: normal;
+        white-space: nowrap;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .overlap-wrapper {
+        top: 520px;
+        left: 0;
+        position: absolute;
+        width: 360px;
+        height: 483px;
+    }
+
+    .app-market .overlap-2 {
+        position: relative;
+        width: 646px;
+        height: 770px;
+        top: -143px;
+        left: -143px;
+        background-image: url(./img/mask-group.png);
+        background-size: 100% 100%;
+    }
+
+    .app-market .text-wrapper-10 {
+        position: relative;
+        width: fit-content;
+        font-family: "Barlow-Bold", Helvetica;
+        font-weight: 700;
+        color: var(--bg);
+        font-size: 19.3px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .app-market .overlap-group-wrapper {
+        top: 0;
+        left: 385px;
+        position: absolute;
+        width: 360px;
+        height: 483px;
+    }
+
+    .app-market .overlap-3 {
+        position: relative;
+        width: 646px;
+        height: 770px;
+        top: -143px;
+        left: -143px;
+        background-image: url(./img/mask-group-6.png);
+        background-size: 100% 100%;
+    }
+
+    .app-market .cards-2 {
+        top: 0;
+        left: 770px;
+        position: absolute;
+        width: 360px;
+        height: 483px;
+    }
+
+    .app-market .overlap-4 {
+        position: relative;
+        width: 546px;
+        height: 770px;
+        top: -143px;
+        left: -143px;
+        background-image: url(./img/mask-group-4.png);
+        background-size: 100% 100%;
+    }
+
+    .app-market .cards-3 {
+        top: 520px;
+        left: 404px;
+        position: absolute;
+        width: 360px;
+        height: 483px;
+    }
+
+    .app-market .overlap-5 {
+        position: relative;
+        width: 646px;
+        height: 770px;
+        top: -143px;
+        left: -143px;
+        background-image: url(./img/mask-group-2.png);
+        background-size: 100% 100%;
+    }
+
+    .app-market .text-wrapper-11 {
+        font-family: "Barlow-Medium", Helvetica;
+        font-weight: 500;
+        color: var(--bg);
+        font-size: 15px;
+        line-height: normal;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .cards-4 {
+        top: 520px;
+        left: 770px;
+        position: absolute;
+        width: 360px;
+        height: 483px;
+    }
+
+    .app-market .overlap-6 {
+        position: relative;
+        width: 546px;
+        height: 770px;
+        top: -143px;
+        left: -143px;
+        background-image: url(./img/mask-group-3.png);
+        background-size: 100% 100%;
+    }
+
+    .app-market .frame-10 {
+        position: absolute;
+        width: 1512px;
+        height: 644px;
+        top: 1629px;
+        left: 0;
+        background-color: var(--neutral-dark);
+        overflow: hidden;
+    }
+
+    .app-market .overlap-7 {
+        position: relative;
+        width: 1831px;
+        height: 874px;
+        top: -283px;
+        left: 50px;
+    }
+
+    .app-market .ellipse-wrapper {
+        position: absolute;
+        width: 522px;
+        height: 636px;
+        top: 91px;
+        left: 1179px;
+        transform: rotate(-32.66deg);
+    }
+
+    .app-market .ellipse-3 {
+        position: relative;
+        width: 513px;
+        height: 634px;
+        top: 1px;
+        left: 5px;
+        background-color: var(--primary-colour);
+        border-radius: 256.27px/317.24px;
+        transform: rotate(0.13deg);
+        filter: blur(512.23px);
+        opacity: 0.8;
+    }
+
+    .app-market .frame-11 {
+        display: inline-flex;
+        align-items: center;
+        gap: 70px;
+        position: absolute;
+        top: 321px;
+        left: 76px;
+    }
+
+    .app-market .frame-12 {
+        position: relative;
+        width: 393px;
+        height: 318px;
+    }
+
+    .app-market .frame-13 {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 34px;
+        position: relative;
+        top: 26px;
+    }
+
+    .app-market .logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-12 {
+        margin-top: -1px;
+        font-family: "Barlow-SemiBold", Helvetica;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 32px;
+        line-height: normal;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .app-market .text-wrapper-13 {
+        position: relative;
+        width: 393px;
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        color: var(--input-field-text);
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 24px;
+    }
+
+    .app-market .socials {
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .search-bar {
+        display: flex;
+        flex-direction: column;
+        width: 347px;
+        align-items: flex-end;
+        gap: 10px;
+        padding: 15px 20px;
+        position: relative;
+        flex: 0 0 auto;
+        background-color: var(--card-bg);
+        border-radius: 30px;
+        border: 1px solid;
+        border-color: #65676b1a;
+    }
+
+    .app-market .frame-14 {
+        display: flex;
+        width: 307px;
+        align-items: center;
+        gap: 160px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-14 {
+        position: relative;
+        width: 121px;
+        font-family: "Barlow-Medium", Helvetica;
+        font-weight: 500;
+        color: var(--input-field-text);
+        font-size: 14px;
+        letter-spacing: 0;
+        line-height: 21px;
+    }
+
+    .app-market .arrow-left {
+        position: relative;
+        flex: 0 0 auto;
+        margin-right: -2px;
+    }
+
+    .app-market .footer-nav-bar {
+        display: flex;
+        width: 797px;
+        height: 229px;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 128px;
+        position: relative;
+    }
+
+    .app-market .div-2 {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-15 {
+        margin-top: -1px;
+        font-family: "Barlow-SemiBold", Helvetica;
+        font-weight: 600;
+        color: var(--neutralwhite);
+        font-size: 20px;
+        line-height: 27px;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .app-market .div-3 {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-16 {
+        position: relative;
+        width: fit-content;
+        margin-top: -1px;
+        color: var(--input-field-text);
+        font-size: 18px;
+        line-height: 24px;
+        white-space: nowrap;
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        letter-spacing: 0;
+    }
+
+    .app-market .text-wrapper-17 {
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        color: var(--input-field-text);
+        font-size: 18px;
+        line-height: 24px;
+        white-space: nowrap;
+        position: relative;
+        width: fit-content;
+        letter-spacing: 0;
+    }
+
+    .app-market .frame-15 {
+        display: flex;
+        flex-direction: column;
+        width: 1440px;
+        height: 187px;
+        align-items: center;
+        gap: 32px;
+        position: absolute;
+        top: 687px;
+        left: 0;
+    }
+
+    .app-market .secondary-footer {
+        display: flex;
+        flex-direction: column;
+        width: 1300px;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 35px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .divider {
+        position: relative;
+        width: 1320px;
+        height: 1px;
+        margin-top: -1px;
+        margin-right: -20px;
+        object-fit: cover;
+    }
+
+    .app-market .terms-and-policy {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 32px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-18 {
+        margin-top: -1px;
+        color: var(--input-field-text);
+        font-size: 16px;
+        line-height: 24px;
+        position: relative;
+        width: fit-content;
+        font-family: "Barlow-Regular", Helvetica;
+        font-weight: 400;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .app-market .divider-2 {
+        position: relative;
+        width: 1320px;
+        height: 1px;
+        margin-right: -20px;
+        object-fit: cover;
+    }
+
+    .app-market .copyright {
+        display: flex;
+        width: 1440px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px 577px;
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .app-market .text-wrapper-19 {
+        position: relative;
+        width: fit-content;
+        margin-top: -1px;
+        font-family: var(--para2-semi-14px-font-family);
+        font-weight: var(--para2-semi-14px-font-weight);
+        color: var(--neutralwhite);
+        font-size: var(--para2-semi-14px-font-size);
+        text-align: center;
+        letter-spacing: var(--para2-semi-14px-letter-spacing);
+        line-height: var(--para2-semi-14px-line-height);
+        white-space: nowrap;
+        font-style: var(--para2-semi-14px-font-style);
+    }
