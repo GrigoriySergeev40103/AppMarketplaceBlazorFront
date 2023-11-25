@@ -1,0 +1,52 @@
+﻿.login-div {
+    display:flex;
+    flex-direction: row;
+    background: white;
+}
+
+.login-creds-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-label{
+    color:black;
+    font-size:24px;
+    font-style:normal;
+    font-weight:700;
+    padding: 10px 10px 10px 0px;
+}
+
+.credential-label {
+    color: #696F79;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    margin: 5px;
+}
+
+.login-creds-box > input {
+    border-radius: 6px;
+    border: 1px solid #8692A6;
+    padding:10px;
+    margin-bottom: 10px;
+}
+    .login-creds-box > input::placeholder {
+        color: #8692A6;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+.login-button {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 6px;
+    background: #A259FF;
+    padding: 10px;
+    margin-top: 10px;
+}

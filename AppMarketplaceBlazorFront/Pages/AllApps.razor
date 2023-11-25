@@ -19,14 +19,6 @@
                         </div>
                     }
                 }
-                @* <div class="checkbox">
-                    <input type="checkbox" class="checkbox-box" id="Audio" name="Audio" />
-                    <label class="checkbox-text" for="Audio">Аудио</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" class="checkbox-box" id="3dModeling" name="3dModeling" />
-                    <label class="checkbox-text" for="3dModeling">3D Моделирование</label>
-                </div> *@
             </div>
             <div class="app-cards">
                 <div class="app-card">
@@ -73,12 +65,12 @@
         public string CategoryName { get; set; } = null!;
     }
 
-    List<AppCategory>? _appCategories;
+    IEnumerable<AppCategory>? _appCategories;
 
     protected override async Task OnInitializedAsync()
     {
         string endpoint = "https://localhost:7247/api/AppCategories/GetAppCategories";
 
-        _appCategories = await httpClient.GetFromJsonAsync<List<AppCategory>>(endpoint);
+        _appCategories = await httpClient.GetFromJsonAsync<IEnumerable<AppCategory>>(endpoint);
     }
 }

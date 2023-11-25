@@ -1,0 +1,48 @@
+﻿@page "/login"
+@using Microsoft.AspNetCore.WebUtilities
+@inject HttpClient httpClient
+
+<body>
+	<div class="login-div">
+		<div class="login-creds-box">
+			<div class="login-label">Войдите в свой аккаунт!</div>
+			<div class="credential-label">Адрес электронной почты</div>
+			<input class="email-input" placeholder="Введите электронную почту" @bind=Email/>
+			<div class="credential-label">Пароль</div>
+			<input class="password-input" type="password" placeholder="Введите ваш пароль" @bind=Password/>
+			<button class="login-button" @onclick=SendLoginRequest>Войти</button>
+		</div>
+	</div>
+</body>
+
+@code {
+	struct UserLoginDTO
+	{
+		public string Email { get; set; }
+		public string Password { get; set; }
+	}
+
+	string Email { get; set; } = "";
+	string Password { get; set; } = "";
+
+	protected Dictionary<string, string?> _queryParams = new() 
+	{
+		{"useCookies", "true" },
+		{"useSessionCookies", "true" }
+	};
+
+	public async Task SendLoginRequest()
+	{
+		string loginEndPoint = "https://localhost:7247/login";
+		string loginRequest = QueryHelpers.AddQueryString(loginEndPoint, _queryParams);
+
+		UserLoginDTO loginDTO = new()
+		{
+			Email = Email,
+			Password = Password
+		};
+
+		HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync(loginRequest, loginDTO);
+		Console.WriteLine(responseMessage.Content.ToString());
+	}
+}
