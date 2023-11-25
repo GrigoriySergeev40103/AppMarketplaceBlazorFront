@@ -9,14 +9,24 @@
         <div class="apps-categories-box">
             <div class="categories-box">
                 <div class="category-label">Категории</div>
-                <div class="checkbox">
+                @if(_appCategories != null)
+                {
+                    @foreach (var category in _appCategories)
+                    {
+                        <div class="checkbox">
+                            <input type="checkbox" class="checkbox-box" id=@category.CategoryId />
+                            <label class="checkbox-text" for=@category.CategoryId>@category.CategoryName</label>
+                        </div>
+                    }
+                }
+                @* <div class="checkbox">
                     <input type="checkbox" class="checkbox-box" id="Audio" name="Audio" />
                     <label class="checkbox-text" for="Audio">Аудио</label>
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" class="checkbox-box" id="3dModeling" name="3dModeling" />
                     <label class="checkbox-text" for="3dModeling">3D Моделирование</label>
-                </div>
+                </div> *@
             </div>
             <div class="app-cards">
                 <div class="app-card">
@@ -67,16 +77,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,
-            "https://localhost:7247/api/AppCategories/GetAppCategories");
+        string endpoint = "https://localhost:7247/api/AppCategories/GetAppCategories";
 
-        HttpResponseMessage response = await httpClient.SendAsync(request);
-
-        if (response.IsSuccessStatusCode)
-        {
-            using Stream responseStream = await response.Content.ReadAsStreamAsync();
-            List<AppCategory>? appCategories = await JsonSerializer.DeserializeAsync
-                <List<AppCategory>>(responseStream);
-        }
+        _appCategories = await httpClient.GetFromJsonAsync<List<AppCategory>>(endpoint);
     }
 }
