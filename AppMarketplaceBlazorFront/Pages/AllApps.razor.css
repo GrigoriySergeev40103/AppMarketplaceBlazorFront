@@ -122,13 +122,13 @@
 
 .lower-card-info{
     display:grid;
-    grid-template-columns: 0.5fr 1fr 1fr;
+    grid-template-columns: 0.2fr 1fr 1fr;
 }
 
 .lower-card-item {
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    margin: 10px;
 }
 
 .developer-label{
@@ -143,7 +143,7 @@
 }
 
 .devoloper-icon {
-    padding: 10px;
+    margin: 10px;
     max-width: 50px;
     max-height: 50px;
     align-self: center;

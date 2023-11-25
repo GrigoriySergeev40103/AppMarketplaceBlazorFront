@@ -1,4 +1,6 @@
 ﻿@page "/all_apps"
+@using System.Text.Json
+@inject HttpClient httpClient
 
 <body>
     <div class="app-market">
@@ -54,5 +56,27 @@
 
 
 @code {
+    class AppCategory
+    {
+        public int CategoryId { get; set; }
 
+        public string CategoryName { get; set; } = null!;
+    }
+
+    List<AppCategory>? _appCategories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://localhost:7247/api/AppCategories/GetAppCategories");
+
+        HttpResponseMessage response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using Stream responseStream = await response.Content.ReadAsStreamAsync();
+            List<AppCategory>? appCategories = await JsonSerializer.DeserializeAsync
+                <List<AppCategory>>(responseStream);
+        }
+    }
 }
