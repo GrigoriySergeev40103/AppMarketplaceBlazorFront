@@ -1,0 +1,141 @@
+﻿.upload-app-page {
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+}
+
+.website-title {
+    font-family: "Barlow-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding: 50px;
+}
+
+/*-------------Nice frame-------------*/
+.nice-frame-div {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-items:center;
+}
+
+.nice-frame {
+    grid-column: 1;
+    grid-row: 1/4;
+    width: 100%;
+}
+
+.nice-frame-text {
+    grid-column: 1;
+    grid-row: 2;
+    color: white;
+    font-size: 67px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+/*-------------Nice frame-------------*/
+
+.app-info-div{
+    display:flex;
+    flex-direction:row;
+    padding: 50px;
+}
+
+.app-info-div > div {
+    flex: 1;
+}
+
+.img-upload-div{
+    display:flex;
+    flex-direction:column;
+    margin-right: 50px;
+}
+
+.img-upload-label {
+    color: white;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 500;
+    margin-bottom:20px;
+}
+
+.upload-img-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    border: 1px dashed rgba(95, 95, 95, 0.50);
+}
+
+.hide-input{
+    display:none;
+}
+
+.upload-img-info {
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.upload-img-button {
+    color: #A259FF;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    border-radius: 31px;
+    border: 1px solid #A259FF;
+    background-color: transparent;
+    justify-self: center;
+    padding: 5px 15px 5px 15px;
+    cursor: pointer;
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.app-desc-div{
+    display:flex;
+    flex-direction:column;
+}
+
+.desc-input-label {
+    display:flex;
+    flex-direction:row;
+    color: white;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    margin: 20px 0px 5px 0px;
+}
+
+.desc-star-mark {
+    color: #E23434;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.desc-input {
+    border-radius: 15px;
+    background: rgba(217, 217, 217, 0.20);
+    padding: 15px;
+    color:white;
+}
+
+.upload-button {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 6px;
+    background: #A259FF;
+    padding: 10px;
+    margin-top: 10px;
+}

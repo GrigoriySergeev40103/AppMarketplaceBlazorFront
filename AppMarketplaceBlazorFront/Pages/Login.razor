@@ -7,7 +7,7 @@
 		<div class="login-creds-box">
 			<div class="login-label">Войдите в свой аккаунт!</div>
 			<div class="credential-label">Адрес электронной почты</div>
-			<input class="email-input" placeholder="Введите электронную почту" @bind=Email/>
+			<input class="email-input" type="email" placeholder="Введите электронную почту" @bind=Email/>
 			<div class="credential-label">Пароль</div>
 			<input class="password-input" type="password" placeholder="Введите ваш пароль" @bind=Password/>
 			<button class="login-button" @onclick=SendLoginRequest>Войти</button>

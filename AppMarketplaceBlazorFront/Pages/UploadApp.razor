@@ -1,0 +1,146 @@
+﻿@page "/upload_app"
+@using AppMarketplaceBlazorFront.DTOs
+@using TusBlazorClient
+@inject HttpClient httpClient
+@inject TusClient tusClient;
+@inject IJSRuntime JS;
+
+<div class="upload-app-page">
+	<div class="website-title">AppMarket</div>
+	<div class="nice-frame-div">
+		<img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
+		<div class="nice-frame-text">Загрузите приложение</div>
+	</div>
+	<div class="app-info-div">
+		<div class="img-upload-div">
+			<div class="img-upload-label">Изображение приложения</div>
+			<div class="upload-img-grid">
+				<div class="upload-img-info">PNG, JPG, WEBP</div>
+				<button class="upload-img-button">Загрузить</button>
+			</div>
+		</div>
+		<div class="app-desc-div">
+			<div class="img-upload-label">Загрузите приложение</div>
+			<div class="upload-img-grid">
+				<div class="upload-img-info">Zip, Rar, 7Zip, tgz. Макс. размер: 100GB</div>
+				<label for="file-upload" class="upload-img-button">
+					Загрузить
+				</label>
+				<input class="hide-input" id="file-upload" type="file" @ref=_fileElement/>
+
+			</div>
+			<div class="desc-input-label">Название<div class="desc-star-mark">*</div></div>
+			<input class="desc-input" placeholder="к примеру: No Cap App" @bind=Name/>
+			<div class="desc-input-label">Краткое описание<div class="desc-star-mark">*</div></div>
+			<input class="desc-input" placeholder="например: Приложение для развития памяти" @bind=SpecialDescription />
+			<div class="desc-input-label">Описание<div class="desc-star-mark">*</div></div>
+			<textarea class="desc-input" placeholder="например: Приложение для развития памяти" @bind=Description/>
+			<div class="desc-input-label">Цена<div class="desc-star-mark">*</div></div>
+			<input class="desc-input" type="number" placeholder="0" @bind=Price/>
+			<div class="desc-input-label">Категория<div class="desc-star-mark">*</div></div>
+			<select class="select-category" id="select-category">
+				@if(_appCategories != null)
+				{
+					@foreach (var category in _appCategories)
+					{
+						<option value=@category.CategoryId.ToString()>@category.CategoryName</option>
+					}
+				}
+			</select>
+			<button class="upload-button" @onclick=Upload>Загрузить</button>
+		</div>
+	</div>
+</div>
+
+@code {
+	private ElementReference _fileElement;
+	private TusUpload? _tusUpload;
+
+	IEnumerable<AppCategory>? _appCategories;
+
+	string Name { get; set; } = "";
+	string Description { get; set; } = "";
+	string SpecialDescription { get; set; } = "";
+	uint Price { get; set; } = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		string endpoint = "https://localhost:7247/api/AppCategories/GetAppCategories";
+
+		_appCategories = await httpClient.GetFromJsonAsync<IEnumerable<AppCategory>>(endpoint);
+	}
+
+	private IJSObjectReference MyJsModule { get; set; }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			try
+			{
+				// Load the JS Helpers Module
+				MyJsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/UploadApp.razor.js");
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+	}
+
+	private async Task Upload()
+	{
+		try
+		{
+			await MyJsModule.InvokeVoidAsync("UploadAppJs", Name, Description, SpecialDescription, Price);
+		}
+		catch (Exception e)
+		{
+
+			throw;
+		}
+
+		// // Get the selected file from the input element
+		// var file = (await tusClient.GetFileInputElement(_fileElement).GetFiles()).First();
+		// // Get the selected file's info
+		// var fileInfo = await file.GetFileInfo();
+		// // Create a new tus upload
+		// var opt = new TusOptions
+		// 	{
+		// 		Endpoint = new Uri("https://localhost:7247/files"),
+		// 		Metadata = new Dictionary<string, string>()
+		// 		{
+		// 			{"filename", fileInfo.Name},
+		// 			{"description", Description},
+		// 			{"spec_desc", SpecialDescription},
+		// 			{"price", Price.ToString()},
+		// 			{"category_id", "1"}
+		// 		},
+		// 		OnError = (err) =>
+		// 		{
+		// 			Console.WriteLine($"Failed because: {err.ErrorMessage}");
+		// 		},
+		// 		OnProgress = (bytesUploaded, bytesTotal) =>
+		// 		{
+		// 			var percentage = (double)bytesUploaded / bytesTotal;
+		// 			Console.WriteLine($"{bytesUploaded} {bytesTotal} {percentage:F}%");
+		// 		},
+		// 		OnSuccess = async () =>
+		// 		{
+		// 			var url = await _tusUpload!.GetUrl();
+		// 			Console.WriteLine($"Download {fileInfo.Name} from {url}");
+		// 		},
+		// 	};
+		// _tusUpload = await tusClient.Upload(file, opt);
+
+		// // Check if there are any previous uploads to continue.
+		// var previousUploads = await _tusUpload.FindPreviousUpload();
+		// if (previousUploads.Count > 0)
+		// {
+		// 	// Found previous uploads so we select the first one.
+		// 	await _tusUpload.ResumeFromPreviousUpload(previousUploads.First());
+		// }
+
+		// // Start the upload
+		// await _tusUpload.Start();
+	}
+}
