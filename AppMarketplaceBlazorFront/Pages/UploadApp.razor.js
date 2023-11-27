@@ -4,6 +4,9 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
     // Get the selected file from the input element
     var file = elem.files[0]
 
+    var progressVisDiv = document.getElementById("upload-pb");
+    var progressElem = document.getElementById("upload-progress");
+
     // Create a new tus upload
     var upload = new tus.Upload(file, {
         endpoint: 'https://localhost:7247/files',
@@ -19,16 +22,19 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
             // So it adds auth cookie to request
             const xhr = req.getUnderlyingObject()
             xhr.withCredentials = true 
+            progressVisDiv.className = "upload-pb-show";
         },
         onError: function (error) {
             console.log('Failed because: ' + error)
         },
         onProgress: function (bytesUploaded, bytesTotal) {
-            var percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2)
-            console.log(bytesUploaded, bytesTotal, percentage + '%')
+            var percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+            progressElem.style.width = `${percentage}%`;
+            progressElem.ariaValueNow = percentage;
         },
         onSuccess: function () {
-            console.log('Download %s from %s', upload.file.name, upload.url)
+            progressVisDiv.className = "upload-pb-hide";
+            console.log('Download %s from %s', upload.file.name, upload.url);
         },
     })
 
