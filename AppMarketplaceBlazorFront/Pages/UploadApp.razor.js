@@ -2,10 +2,14 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
     const elem = document.getElementById("file-upload");
 
     // Get the selected file from the input element
-    var file = elem.files[0]
+    var file = elem.files[0];
 
     var progressVisDiv = document.getElementById("upload-pb");
     var progressElem = document.getElementById("upload-progress");
+
+    const fName = file.name;
+    const lastDot = fName.lastIndexOf('.');
+    const ext = fName.substring(lastDot + 1);
 
     // Create a new tus upload
     var upload = new tus.Upload(file, {
@@ -13,6 +17,7 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
         retryDelays: [0, 3000, 5000, 10000, 20000],
         metadata: {
             filename: filename,
+            extension: ext,
             description: desc,
             spec_desc: special_desc,
             price: String(prc),

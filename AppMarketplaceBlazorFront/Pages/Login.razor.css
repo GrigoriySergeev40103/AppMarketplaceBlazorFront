@@ -92,3 +92,10 @@
     .login-button:active {
         top: 1px;
     }
+
+
+.failed-login-info {
+    font-size: 14px;
+    color: red;
+    opacity: 0.8;
+}

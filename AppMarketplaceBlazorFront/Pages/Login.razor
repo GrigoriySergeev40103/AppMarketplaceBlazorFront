@@ -8,10 +8,11 @@
 		<div class="login-creds-box">
 			<div class="login-label">Войдите в свой аккаунт!</div>
 			<div class="credential-label">Адрес электронной почты</div>
-			<input class="form-control" type="email" placeholder="Введите электронную почту" @bind=Email/>
+			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="email" placeholder="Введите электронную почту" @bind=loginDTO.Email />
 			<div class="credential-label">Пароль</div>
-			<input class="form-control" type="password" placeholder="Введите ваш пароль" @bind=Password/>
+			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="password" placeholder="Введите ваш пароль" @bind=loginDTO.Password />
 			<button class="login-button" @onclick=SendLoginRequest>Войти</button>
+			<div style="visibility: @(hasFailedAttempt ? "visible" : "collapse")" class="failed-login-info">Удостовертесь что введенные вами данные верны и попробуйте снова</div>
 		</div>
 	</div>
 </body>
@@ -23,8 +24,9 @@
 		public string Password { get; set; }
 	}
 
-	string Email { get; set; } = "";
-	string Password { get; set; } = "";
+	bool hasFailedAttempt = false;
+
+	UserLoginDTO loginDTO = new();
 
 	protected Dictionary<string, string?> _queryParams = new() 
 	{
@@ -37,18 +39,15 @@
 		string loginEndPoint = "https://localhost:7247/login";
 		string loginRequest = QueryHelpers.AddQueryString(loginEndPoint, _queryParams);
 
-		UserLoginDTO loginDTO = new()
-		{
-			Email = Email,
-			Password = Password
-		};
-
 		HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync(loginRequest, loginDTO);
 
 		if(responseMessage.IsSuccessStatusCode)
 		{
 			Navigation.NavigateTo("all_apps");
 		}
-			
+		else if(responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+		{
+			hasFailedAttempt = true;
+		}
 	}
 }
