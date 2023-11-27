@@ -26,7 +26,7 @@
 				<label for="file-upload" class="upload-img-button">
 					Загрузить
 				</label>
-				<input class="hide-input" id="file-upload" type="file" @ref=_fileElement/>
+				<input class="hide-input" id="file-upload" type="file"/>
 
 			</div>
 			<div class="desc-input-label">Название<div class="desc-star-mark">*</div></div>
@@ -53,9 +53,6 @@
 </div>
 
 @code {
-	private ElementReference _fileElement;
-	private TusUpload? _tusUpload;
-
 	IEnumerable<AppCategory>? _appCategories;
 
 	string Name { get; set; } = "";
@@ -70,77 +67,18 @@
 		_appCategories = await httpClient.GetFromJsonAsync<IEnumerable<AppCategory>>(endpoint);
 	}
 
-	private IJSObjectReference MyJsModule { get; set; }
+	private IJSObjectReference MyJsModule { get; set; } = null!;
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
-			try
-			{
-				// Load the JS Helpers Module
-				MyJsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/UploadApp.razor.js");
-			}
-			catch (Exception ex)
-			{
-				throw;
-			}
+			// Load the JS Helpers Module
+			MyJsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/UploadApp.razor.js");
 		}
 	}
 
 	private async Task Upload()
 	{
-		try
-		{
-			await MyJsModule.InvokeVoidAsync("UploadAppJs", Name, Description, SpecialDescription, Price);
-		}
-		catch (Exception e)
-		{
-
-			throw;
-		}
-
-		// // Get the selected file from the input element
-		// var file = (await tusClient.GetFileInputElement(_fileElement).GetFiles()).First();
-		// // Get the selected file's info
-		// var fileInfo = await file.GetFileInfo();
-		// // Create a new tus upload
-		// var opt = new TusOptions
-		// 	{
-		// 		Endpoint = new Uri("https://localhost:7247/files"),
-		// 		Metadata = new Dictionary<string, string>()
-		// 		{
-		// 			{"filename", fileInfo.Name},
-		// 			{"description", Description},
-		// 			{"spec_desc", SpecialDescription},
-		// 			{"price", Price.ToString()},
-		// 			{"category_id", "1"}
-		// 		},
-		// 		OnError = (err) =>
-		// 		{
-		// 			Console.WriteLine($"Failed because: {err.ErrorMessage}");
-		// 		},
-		// 		OnProgress = (bytesUploaded, bytesTotal) =>
-		// 		{
-		// 			var percentage = (double)bytesUploaded / bytesTotal;
-		// 			Console.WriteLine($"{bytesUploaded} {bytesTotal} {percentage:F}%");
-		// 		},
-		// 		OnSuccess = async () =>
-		// 		{
-		// 			var url = await _tusUpload!.GetUrl();
-		// 			Console.WriteLine($"Download {fileInfo.Name} from {url}");
-		// 		},
-		// 	};
-		// _tusUpload = await tusClient.Upload(file, opt);
-
-		// // Check if there are any previous uploads to continue.
-		// var previousUploads = await _tusUpload.FindPreviousUpload();
-		// if (previousUploads.Count > 0)
-		// {
-		// 	// Found previous uploads so we select the first one.
-		// 	await _tusUpload.ResumeFromPreviousUpload(previousUploads.First());
-		// }
-
-		// // Start the upload
-		// await _tusUpload.Start();
+		await MyJsModule.InvokeVoidAsync("UploadAppJs", Name, Description, SpecialDescription, Price);
 	}
 }
