@@ -130,10 +130,10 @@
 }
 
 .desc-input {
-    border-radius: 15px;
+    border-radius: 0.25rem;
     background: rgba(217, 217, 217, 0.20);
-    padding: 15px;
-    color:white;
+    padding: 0.375rem 0.75rem;
+    color: white;
 }
 
 .upload-button {

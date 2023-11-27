@@ -1,15 +1,16 @@
 ﻿@page "/login"
 @using Microsoft.AspNetCore.WebUtilities
 @inject HttpClient httpClient
+@inject NavigationManager Navigation
 
 <body>
 	<div class="login-div">
 		<div class="login-creds-box">
 			<div class="login-label">Войдите в свой аккаунт!</div>
 			<div class="credential-label">Адрес электронной почты</div>
-			<input class="email-input" type="email" placeholder="Введите электронную почту" @bind=Email/>
+			<input class="form-control" type="email" placeholder="Введите электронную почту" @bind=Email/>
 			<div class="credential-label">Пароль</div>
-			<input class="password-input" type="password" placeholder="Введите ваш пароль" @bind=Password/>
+			<input class="form-control" type="password" placeholder="Введите ваш пароль" @bind=Password/>
 			<button class="login-button" @onclick=SendLoginRequest>Войти</button>
 		</div>
 	</div>
@@ -43,5 +44,11 @@
 		};
 
 		HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync(loginRequest, loginDTO);
+
+		if(responseMessage.IsSuccessStatusCode)
+		{
+			Navigation.NavigateTo("all_apps");
+		}
+			
 	}
 }
