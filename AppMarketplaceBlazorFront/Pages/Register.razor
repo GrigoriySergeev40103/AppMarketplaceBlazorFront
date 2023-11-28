@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/register"
 @using Microsoft.AspNetCore.WebUtilities
 @inject HttpClient httpClient
 @inject NavigationManager Navigation
@@ -8,13 +8,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="login-div">
 		<div class="login-creds-box">
-			<div class="login-label">Войдите в свой аккаунт!</div>
+			<div class="login-label">Создайте новый аккаунт!</div>
 			<div class="credential-label">Адрес электронной почты</div>
-			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="email" placeholder="Введите электронную почту" @bind=loginDTO.Email />
+			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="email" placeholder="Введите электронную почту" @bind=registerDTO.Email />
 			<div class="credential-label">Пароль</div>
-			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="password" placeholder="Введите ваш пароль" @bind=loginDTO.Password />
+			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="password" placeholder="Введите ваш пароль" @bind=registerDTO.Password />
 			<button class="login-button" @onclick=SendLoginRequest disabled="@(isWaitingForAwnser)">
-				<i style="visibility: @(isWaitingForAwnser ? "visible" : "collapse")" class="fa fa-spinner fa-spin"></i>Войти
+				<i style="visibility: @(isWaitingForAwnser ? "visible" : "collapse")" class="fa fa-spinner fa-spin"></i>Зарегистрироваться
 			</button>
 			<div style="visibility: @(hasFailedAttempt ? "visible" : "collapse")" class="failed-login-info">Удостовертесь что введенные вами данные верны и попробуйте снова</div>
 		</div>
@@ -22,7 +22,7 @@
 </body>
 
 @code {
-	struct UserLoginDTO
+	struct UserRegisterDTO
 	{
 		public string Email { get; set; }
 		public string Password { get; set; }
@@ -31,27 +31,20 @@
 	bool hasFailedAttempt = false;
 	bool isWaitingForAwnser = false;
 
-	UserLoginDTO loginDTO = new();
-
-	protected Dictionary<string, string?> _queryParams = new() 
-	{
-		{"useCookies", "true" },
-		{"useSessionCookies", "true" }
-	};
+	UserRegisterDTO registerDTO = new();
 
 	public async Task SendLoginRequest()
 	{
-		string loginEndPoint = "https://localhost:7247/login";
-		string loginRequest = QueryHelpers.AddQueryString(loginEndPoint, _queryParams);
+		string registerEndPoint = "https://localhost:7247/register";
 
 		isWaitingForAwnser = true;
-		HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync(loginRequest, loginDTO);
+		HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync(registerEndPoint, registerDTO);
 
 		if(responseMessage.IsSuccessStatusCode)
 		{
-			Navigation.NavigateTo("all_apps");
+			Navigation.NavigateTo("login");
 		}
-		else if(responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+		else if(responseMessage.StatusCode == System.Net.HttpStatusCode.BadRequest)
 		{
 			hasFailedAttempt = true;
 			isWaitingForAwnser = false;
