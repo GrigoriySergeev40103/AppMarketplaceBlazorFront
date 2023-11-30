@@ -4,6 +4,7 @@
 @inject HttpClient httpClient
 @inject TusClient tusClient;
 @inject IJSRuntime JS;
+@inject NavigationManager Navigation
 
 <div class="upload-app-page">
 	<div class="website-title">AppMarket</div>
@@ -11,14 +12,37 @@
 		<img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
 		<div class="nice-frame-text">Загрузите приложение</div>
 	</div>
-	<div class="app-info-div">
-		<div class="img-upload-div">
-			<div class="img-upload-label">Изображение приложения</div>
-			<div class="upload-img-grid">
-				<div class="upload-img-info">PNG, JPG, WEBP</div>
-				<button class="upload-img-button">Загрузить</button>
+
+	<div class="modal" id="upload_success-modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Успешная загрузка приложения!</h5>
+				</div>
+				<div class="modal-body">
+					<p>Ваше приложение было успешно загружено!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" @onclick=ToMainPage class="btn btn-primary">На главную</button>
+				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="app-info-div">
+		<div>
+			<div class="app-image-div mb-4 d-flex justify-content-center">
+				<img class="app-img" id="selectedImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+					 alt="example placeholder" />
+			</div>
+			<div class="d-flex justify-content-center">
+				<div class="btn btn-primary btn-rounded">
+					<label class="form-label text-white m-1" for="appImageInput">Choose file</label>
+					<input type="file" class="form-control d-none" id="appImageInput" onchange="displaySelectedImage(event, 'selectedImage')" />
+				</div>
+			</div>
+		</div>
+
 		<div class="app-desc-div">
 			<div class="img-upload-label">Загрузите приложение</div>
 			<div class="upload-img-grid">
@@ -57,6 +81,23 @@
 	</div>
 </div>
 
+<script>
+	function displaySelectedImage(event, elementId) {
+		const selectedImage = document.getElementById(elementId);
+		const fileInput = event.target;
+
+		if (fileInput.files && fileInput.files[0]) {
+			const reader = new FileReader();
+
+			reader.onload = function (e) {
+				selectedImage.src = e.target.result;
+			};
+
+			reader.readAsDataURL(fileInput.files[0]);
+		}
+	}
+</script>
+
 @code {
 	IEnumerable<AppCategory>? _appCategories;
 
@@ -85,5 +126,10 @@
 	private async Task Upload()
 	{
 		await MyJsModule.InvokeVoidAsync("UploadAppJs", Name, Description, SpecialDescription, Price);
+	}
+
+	private void ToMainPage()
+	{
+		Navigation.NavigateTo("all_apps");
 	}
 }

@@ -1,3 +1,4 @@
+
 export function UploadAppJs(filename, desc, special_desc, prc) {
     const elem = document.getElementById("file-upload");
 
@@ -21,7 +22,7 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
             description: desc,
             spec_desc: special_desc,
             price: String(prc),
-            category_id: String(document.getElementById("select-category").value)
+            category_id: String(document.getElementById("select-category").value),
         },
         onBeforeRequest: (req) => {
             // So it adds auth cookie to request
@@ -39,7 +40,17 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
         },
         onSuccess: function () {
             progressVisDiv.className = "upload-pb-hide";
-            console.log('Download %s from %s', upload.file.name, upload.url);
+            var myModal = document.getElementById('upload_success-modal');
+            myModal.style.display = 'block';
+
+            //// Upload an image of an app
+            //var formData = new FormData();
+            //formData.append("file", document.getElementById("appImageInput").files[0]);
+
+            //var xhr = new XMLHttpRequest();
+            //xhr.withCredentials = true;
+            //xhr.open("POST", "https://localhost:7247/api/Apps/UpdateAppImage");
+            //xhr.send(formData);
         },
     })
 

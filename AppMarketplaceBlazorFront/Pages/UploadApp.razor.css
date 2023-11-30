@@ -112,6 +112,17 @@
     flex-direction:column;
 }
 
+.app-image-div {
+    width: 100%;
+    height: 50%;
+    padding: 10px;
+}
+
+.app-img {
+    width: 80%;
+    height: 100%;
+}
+
 .desc-input-label {
     display:flex;
     flex-direction:row;
