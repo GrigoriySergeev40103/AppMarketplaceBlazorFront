@@ -41,7 +41,7 @@
 
 	public async Task SendLoginRequest()
 	{
-		string loginEndPoint = "https://localhost:7247/login";
+		string loginEndPoint = "https://localhost:7247/api/Users/Login";
 		string loginRequest = QueryHelpers.AddQueryString(loginEndPoint, _queryParams);
 
 		isWaitingForAwnser = true;

@@ -22,7 +22,7 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
             description: desc,
             spec_desc: special_desc,
             price: String(prc),
-            category_id: String(document.getElementById("select-category").value),
+            category_id: String(document.getElementById("select-category").value)
         },
         onBeforeRequest: (req) => {
             // So it adds auth cookie to request

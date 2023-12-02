@@ -3,6 +3,7 @@
 @using AppMarketplaceBlazorFront.DTOs
 @using Microsoft.AspNetCore.WebUtilities
 @inject HttpClient httpClient
+@inject IJSRuntime JS;
 
 <body>
     <div class="app-market">
@@ -28,10 +29,10 @@
                     @for (int i = 0; i < _apps.Length; i++)
                     {
                         <div class="app-card">
-                            <img class="card-icon" src="~/favicon.png" />
+                            <img class="card-icon" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={_apps?[i].AppId}") />
                             <div class="upper-card-info"><div class="card-text">@_apps[i].Name</div></div>
                             <div class="lower-card-info">
-                                <img class="devoloper-icon" src="img/image.png" />
+                                <img class="devoloper-icon" src=@($"https://localhost:7247/api/Users/GetUserAvatar?userId={_developers?[i].Id}") />
                                 <div class="lower-card-item">
                                     <div class="developer-label">Разработчик</div>
                                     <div class="developer-name">@(_developers != null ? _developers[i].UserName : "")</div>
@@ -48,7 +49,6 @@
         </div>
     </div>
 </body>
-
 
 @code {
     AppCategory[]? _appCategories;

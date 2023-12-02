@@ -84,9 +84,10 @@
 
 .app-cards {
     width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, 250px);
-    grid-template-rows: repeat(auto-fit, 120px);
+    grid-template-rows: repeat(auto-fit, 350px);
     grid-row-gap: 0.5em;
     grid-column-gap: 1em;
 }
@@ -142,9 +143,7 @@
 }
 
 .devoloper-icon {
-    margin: 10px;
-    max-width: 50px;
-    max-height: 50px;
+    width:100%;
     align-self: center;
 }
 

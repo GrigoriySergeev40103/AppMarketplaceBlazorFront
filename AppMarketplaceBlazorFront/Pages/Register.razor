@@ -35,7 +35,7 @@
 
 	public async Task SendLoginRequest()
 	{
-		string registerEndPoint = "https://localhost:7247/register";
+		string registerEndPoint = "https://localhost:7247/api/Users/Register";
 
 		isWaitingForAwnser = true;
 		HttpResponseMessage responseMessage = await httpClient.PostAsJsonAsync(registerEndPoint, registerDTO);
