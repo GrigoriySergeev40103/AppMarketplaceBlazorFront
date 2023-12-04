@@ -52,6 +52,21 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
             //xhr.open("POST", "https://localhost:7247/api/Apps/UpdateAppImage");
             //xhr.send(formData);
         },
+        onAfterResponse: function (req, res) {
+            var url = req.getURL()
+            var value = res.getHeader("AppId")
+            if (value != null) {
+                // Upload an image of an app
+                var formData = new FormData();
+                formData.append("file", document.getElementById("appImageInput").files[0]);
+
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.open("POST", `https://localhost:7247/api/Apps/UpdateAppImage?appId=${value}`);
+                xhr.send(formData);
+            }
+            console.log(`Request for ${url} responded with ${value}`)
+        }
     })
 
     // Check if there are any previous uploads to continue.
