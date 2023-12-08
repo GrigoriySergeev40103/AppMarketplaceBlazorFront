@@ -34,17 +34,6 @@
     flex-direction: column;
 }
 
-.website-title {
-    font-family: "Barlow-Bold", Helvetica;
-    font-weight: 700;
-    color: #ffffff;
-    font-size: 40px;
-    letter-spacing: 0;
-    line-height: normal;
-    white-space: nowrap;
-    padding:50px;
-}
-
 .nice-frame{
     width:100%;
 }

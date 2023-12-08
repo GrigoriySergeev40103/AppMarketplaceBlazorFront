@@ -2,10 +2,12 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background: black;
 }
 
 main {
     flex: 1;
+    background: black;
 }
 
 .sidebar {
@@ -75,3 +77,48 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+
+/*----------------------HEADER----------------------*/
+.website-title {
+    font-family: "Barlow-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding-right: 30px;
+}
+
+.website-header {
+    display: flex;
+    flex-direction: row;
+    padding: 50px;
+    gap: 20px;
+}
+
+.acc-balance {
+    color: white;
+    align-self: center;
+}
+
+.pic-balance-div {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.user-icon {
+    height: 40px;
+    width: 40px;
+    align-self: center;
+}
+
+.header-text {
+    align-self: center;
+    text-decoration:none;
+    color: white;
+    font-size: 20px;
+}
+/*----------------------HEADER----------------------*/

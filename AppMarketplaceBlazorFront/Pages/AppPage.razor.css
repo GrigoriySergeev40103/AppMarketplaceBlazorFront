@@ -1,0 +1,155 @@
+﻿
+.app-page{
+    display:flex;
+    flex-direction:column;
+    background: black;
+    padding:50px;
+}
+
+.website-title {
+    font-family: "Barlow-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.website-header {
+    display: flex;
+    flex-direction: row;
+    padding: 0px 0px 150px 20px;
+}
+
+.app-name-title {
+    color: rgba(255, 255, 255, 0.70);
+    font-family: Barlow;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 20px;
+}
+
+.dev-name-title {
+    color: rgba(255, 255, 255, 0.70);
+    margin: 0px 10px 50px 0px;
+}
+
+.app-desc-body{
+    display:flex;
+    flex-direction:row;
+}
+
+.pic-desc-div {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+
+.acquire-div {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    border-radius: 5px;
+    border: 2px solid #5F5F5F;
+    padding: 27px 23px 18px 19px;
+}
+
+.spec-desc {
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Barlow;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px; /* 131.25% */
+    margin-bottom: 20px;
+}
+
+.desc {
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Barlow;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 33px; /* 165% */
+    width: 60vw;
+}
+
+.app-pic {
+    width: 60vw;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.app-name {
+    color: #FFF;
+    font-family: Barlow;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px; /* 105% */
+}
+
+.spec-desc-acquire {
+    color: #FFF;
+    font-family: Barlow;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px; /* 140% */
+    margin-bottom: 20px;
+}
+
+.app-price {
+    color: #A259FF;
+    font-family: Barlow;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px; /* 105% */
+}
+
+.buy-app-button {
+    background: #A259FF;
+    color: var(--neutral-white, #FFF);
+    text-align: center;
+    font-family: Barlow;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 133.333% */
+}
+
+.name-price {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    margin-bottom: 10px;
+}
+
+.acc-balance {
+    color: white;
+    align-self:center;
+}
+
+.pic-balance-div {
+    margin-left: auto;
+    display:flex;
+    flex-direction:row;
+    gap:10px;
+}
+
+.user-icon {
+    height: 40px;
+    width: 40px;
+    align-self:center;
+}
+
+.modal {
+    display: block;
+    background: #000000b2;
+}

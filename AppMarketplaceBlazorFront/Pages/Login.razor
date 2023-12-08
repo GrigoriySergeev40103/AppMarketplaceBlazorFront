@@ -1,7 +1,10 @@
 ﻿@page "/login"
+@using AppMarketplaceBlazorFront.DTOs
+@using AppMarketplaceBlazorFront.Services
 @using Microsoft.AspNetCore.WebUtilities
 @inject HttpClient httpClient
 @inject NavigationManager Navigation
+@inject PersonalData personalData
 
 <body>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -49,7 +52,10 @@
 
 		if(responseMessage.IsSuccessStatusCode)
 		{
-			Navigation.NavigateTo("all_apps");
+			string personalDtoEndpoint = "https://localhost:7247/api/Users/GetMyself";
+			personalData.CurrentUser = await httpClient.GetFromJsonAsync<PersonalUserDTO>(personalDtoEndpoint);
+
+			Navigation.NavigateTo("/");
 		}
 		else if(responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
 		{

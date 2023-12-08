@@ -1,0 +1,88 @@
+﻿@page "/my_apps"
+@using System.Text.Json
+@using AppMarketplaceBlazorFront.DTOs
+@using AppMarketplaceBlazorFront.Services
+@using Microsoft.AspNetCore.WebUtilities
+@inject HttpClient httpClient
+@inject PersonalData personalData;
+
+<div class="app-market">
+    <img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
+    <div class="apps-categories-box">
+        <div class="categories-box">
+            <div class="category-label">Категории</div>
+            @if (_appCategories != null)
+            {
+                @for (int i = 0; i < _appCategories.Length; i++)
+                {
+                    <div class="checkbox">
+                        <input type="checkbox" class="form-check-input" id=@_appCategories[i].CategoryId />
+                        <label class="checkbox-text" for=@_appCategories[i].CategoryId>@_appCategories[i].CategoryName</label>
+                    </div>
+                }
+            }
+        </div>
+        <div class="app-cards">
+            @if (personalData.AcquiredApps != null)
+            {
+                @for (int i = 0; i < personalData.AcquiredApps.Count; i++)
+                {
+                    <a href=@($"app_page/{personalData.AcquiredApps[i].AppId}")>
+                        <div class="app-card">
+                            <img class="card-icon" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={personalData.AcquiredApps[i].AppId}") />
+                            <div class="upper-card-info"><div class="card-text">@personalData.AcquiredApps[i].Name</div></div>
+                            <div class="lower-card-info">
+                                <img class="devoloper-icon" src=@($"https://localhost:7247/api/Users/GetUserAvatar?userId={_developers?[i].Id}") />
+                                <div class="lower-card-item">
+                                    <div class="developer-label">Разработчик</div>
+                                    <div class="developer-name">@(_developers != null ? _developers[i].UserName : "")</div>
+                                </div>
+                                <div class="lower-card-item">
+                                    <div class="price-label">Цена</div>
+                                    <div class="card-text">@(Decimal.Round(personalData.AcquiredApps[i].Price, 2)) Руб</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    AppCategory[]? _appCategories;
+    UserDTO[]? _developers = null;
+
+    protected Dictionary<string, string?> _queryParams = new()
+    {
+        {"userId", "" }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        string acquiredAppsEndpoint = "https://localhost:7247/api/Apps/GetMyApps";
+        personalData.AcquiredApps = await httpClient.GetFromJsonAsync<List<AppDTO>>(acquiredAppsEndpoint);
+
+        string categoriesEndpoint = "https://localhost:7247/api/AppCategories/GetAppCategories";
+        _appCategories = await httpClient.GetFromJsonAsync<AppCategory[]?>(categoriesEndpoint);
+
+        if (personalData.AcquiredApps != null)
+        {
+            string userEndpoint = "https://localhost:7247/api/Users/GetUserById";
+            _developers = new UserDTO[personalData.AcquiredApps.Count];
+
+            for (int i = 0; i < personalData.AcquiredApps.Count; i++)
+            {
+                _queryParams["userId"] = personalData.AcquiredApps[i].DeveloperId;
+                string userRequest = QueryHelpers.AddQueryString(userEndpoint, _queryParams);
+
+                UserDTO? developer = await httpClient.GetFromJsonAsync<UserDTO?>(userRequest);
+                if (developer != null)
+                {
+                    _developers[i] = developer;
+                }
+            }
+        }
+    }
+}

@@ -1,23 +1,82 @@
-﻿@* @inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div> *@
+﻿@using AppMarketplaceBlazorFront.DTOs
+@using AppMarketplaceBlazorFront.Services
+@using Microsoft.AspNetCore.WebUtilities
+@inject HttpClient httpClient
+@inject PersonalData personalData;
+@implements IDisposable
 
 @inherits LayoutComponentBase
 <div class="page">
     <main>
+        <div class="website-header">
+            <div class="website-title">AppMarket</div>
+            <a class="header-text" href="/">
+                All Apps
+            </a>
+            @if (personalData.CurrentUser != null)
+            {
+                <a class="header-text" href="upload_app">
+                    <div>
+                        Upload An App
+                    </div>
+                </a>
+
+                <a class="header-text" href="my_apps">
+                    My Apps
+                </a>
+                <div class="pic-balance-div">
+                    <img class="user-icon" src=@($"https://localhost:7247/api/Users/GetUserAvatar?userId={personalData.CurrentUser.Id}") />
+                    <div class="acc-balance">@(Decimal.Round(personalData.CurrentUser.Balance, 2)) Руб</div>
+                </div>
+            }
+            else
+            {
+                <div class="pic-balance-div">
+                    <a class="header-text" href="login">
+                        Login
+                    </a>
+                    <a class="header-text" href="register">
+                        <div>
+                            Register
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+
         @Body
     </main>
 </div>
+
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+        string personalDtoEndpoint = "https://localhost:7247/api/Users/GetMyself";
+
+        try
+        {
+            personalData.CurrentUser = await httpClient.GetFromJsonAsync<PersonalUserDTO>(personalDtoEndpoint);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        if (personalData.CurrentUser != null)
+            personalData.CurrentUser.Notify += OnNotify;
+    }
+
+    public void OnNotify()
+    {
+        InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        if(personalData.CurrentUser != null)
+            personalData.CurrentUser.Notify -= OnNotify;
+    }
+}

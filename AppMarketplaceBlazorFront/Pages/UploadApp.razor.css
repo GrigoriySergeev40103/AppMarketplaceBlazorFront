@@ -173,3 +173,7 @@
 .upload-pb-show {
     display: block;
 }
+
+.modal {
+    background: #000000b2;
+}

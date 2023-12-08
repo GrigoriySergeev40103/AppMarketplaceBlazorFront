@@ -7,7 +7,6 @@
 @inject NavigationManager Navigation
 
 <div class="upload-app-page">
-	<div class="website-title">AppMarket</div>
 	<div class="nice-frame-div">
 		<img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
 		<div class="nice-frame-text">Загрузите приложение</div>
@@ -125,11 +124,12 @@
 
 	private async Task Upload()
 	{
+		// Calls into js function that uploads an app through tus protocol, on finish pops a modal up
 		await MyJsModule.InvokeVoidAsync("UploadAppJs", Name, Description, SpecialDescription, Price);
 	}
 
 	private void ToMainPage()
 	{
-		Navigation.NavigateTo("all_apps");
+		Navigation.NavigateTo("/");
 	}
 }

@@ -1,0 +1,103 @@
+﻿@page "/app_page/{appId}"
+@using AppMarketplaceBlazorFront.DTOs
+@using AppMarketplaceBlazorFront.Services
+@using Microsoft.AspNetCore.WebUtilities
+@inject HttpClient httpClient
+@inject PersonalData personalData;
+@inject NavigationManager Navigation
+
+@if(justBought)
+{
+	<div class="modal" id="upload_success-modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Успешное приобретение приложения!</h5>
+				</div>
+				<div class="modal-body">
+					<p>Это приложение теперь ваше!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" @onclick=ToMainPage class="btn btn-primary">На главную</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+<div class="app-page">
+
+	@if(_app != null)
+	{
+		<div class="app-name-title">@_app.Name</div>
+		<div class="dev-name-title">@_app.DeveloperId</div>
+		<div class="app-desc-body">
+			<div class="pic-desc-div">
+				<img class="app-pic" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={_app.AppId}") />
+				<div class="spec-desc">@_app.SpecialDescription</div>
+				<div class="desc">@_app.Description</div>
+			</div>
+			<div class="acquire-div">
+				<div class="name-price">
+					<div class="app-name">@_app.Name</div>
+					<div class="app-price">@(Decimal.Round(_app.Price, 2)) Руб</div>
+				</div>
+				<div class="spec-desc-acquire">@_app.SpecialDescription</div>
+				<button class="buy-app-button" @onclick=OnBuyButtonClick>@(_app.Price != 0 ? "Купить" : "Приобрести")</button>
+			</div>
+		</div>
+	}
+</div>
+
+@code {
+	bool justBought = false;
+
+	[Parameter]
+	public string AppId { get; set; } = string.Empty;
+
+	AppDTO? _app;
+
+	protected Dictionary<string, string?> _appGetQueryParams = new()
+    {
+        {"appId", "" }
+    };
+
+	protected Dictionary<string, string?> _appAcquireQueryParams = new()
+	{
+		{"appId", "" }
+	};
+
+	string acquireEndpoint = "https://localhost:7247/api/Apps/AcquireAppById";
+	string appsEndpoint = "https://localhost:7247/api/Apps/GetAppById";
+
+	protected override async Task OnInitializedAsync()
+	{
+		_appGetQueryParams["appId"] = AppId;
+		string appRequest = QueryHelpers.AddQueryString(appsEndpoint, _appGetQueryParams);
+		AppDTO? app = await httpClient.GetFromJsonAsync<AppDTO?>(appRequest);
+		if (app != null)
+			_app = app;
+	}
+
+	protected async Task OnBuyButtonClick()
+	{
+		if (_app == null || personalData.CurrentUser == null)
+			return;
+
+		_appAcquireQueryParams["appId"] = AppId;
+		string acquireRequest = QueryHelpers.AddQueryString(acquireEndpoint, _appAcquireQueryParams);
+
+		HttpResponseMessage response = await httpClient.PostAsync(acquireRequest, null);
+
+		if(response.IsSuccessStatusCode)
+		{
+			personalData.CurrentUser.Balance -= _app.Price;
+			justBought = true;
+		}
+	}
+
+	private void ToMainPage()
+	{
+		Navigation.NavigateTo("/");
+	}
+}

@@ -1,4 +1,4 @@
-﻿@page "/all_apps"
+﻿@page "/"
 @using System.Text.Json
 @using AppMarketplaceBlazorFront.DTOs
 @using Microsoft.AspNetCore.WebUtilities
@@ -7,7 +7,6 @@
 
 <body>
     <div class="app-market">
-        <div class="website-title">AppMarket</div>
         <img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
         <div class="apps-categories-box">
             <div class="categories-box">
@@ -28,7 +27,7 @@
                 {
                     @for (int i = 0; i < _apps.Length; i++)
                     {
-                        <a href="Login">
+                        <a href=@($"app_page/{_apps[i].AppId}")>
                             <div class="app-card">
                                 <img class="card-icon" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={_apps?[i].AppId}") />
                                 <div class="upper-card-info"><div class="card-text">@_apps[i].Name</div></div>
