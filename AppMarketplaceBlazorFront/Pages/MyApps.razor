@@ -16,8 +16,8 @@
                 @for (int i = 0; i < _appCategories.Length; i++)
                 {
                     <div class="checkbox">
-                        <input type="checkbox" class="form-check-input" id=@_appCategories[i].CategoryId />
-                        <label class="checkbox-text" for=@_appCategories[i].CategoryId>@_appCategories[i].CategoryName</label>
+                        <input type="checkbox" class="form-check-input" id=@_appCategories[i].CategoryName />
+                        <label class="checkbox-text" for=@_appCategories[i].CategoryName>@_appCategories[i].CategoryName</label>
                     </div>
                 }
             }
