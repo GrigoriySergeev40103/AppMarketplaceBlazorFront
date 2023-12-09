@@ -1,6 +1,6 @@
 ﻿namespace AppMarketplaceBlazorFront.DTOs
 {
-    public class AppDTO
+    public class AppDTO : IEquatable<AppDTO>
     {
         public string AppId { get; set; } = null!;
 
@@ -19,5 +19,13 @@
         public string? Description { get; set; }
 
         public string? SpecialDescription { get; set; }
-    }
+
+		public bool Equals(AppDTO? other)
+		{
+            if (other == null)
+                return false;
+
+            return AppId == other.AppId;
+		}
+	}
 }

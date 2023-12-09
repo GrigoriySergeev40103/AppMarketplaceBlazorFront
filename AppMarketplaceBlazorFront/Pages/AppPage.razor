@@ -18,6 +18,7 @@
 					<p>Это приложение теперь ваше!</p>
 				</div>
 				<div class="modal-footer">
+					<a href=@($"https://localhost:7247/api/Apps/DownloadAppById?appId={_app!.AppId}") class="btn btn-primary">Скачать</a>
 					<button type="button" @onclick=ToMainPage class="btn btn-primary">На главную</button>
 				</div>
 			</div>
@@ -43,7 +44,14 @@
 					<div class="app-price">@(Decimal.Round(_app.Price, 2)) Руб</div>
 				</div>
 				<div class="spec-desc-acquire">@_app.SpecialDescription</div>
-				<button class="buy-app-button" @onclick=OnBuyButtonClick>@(_app.Price != 0 ? "Купить" : "Приобрести")</button>
+				@if(owned)
+				{
+					<a class="buy-app-button" href=@($"https://localhost:7247/api/Apps/DownloadAppById?appId={_app!.AppId}")>Скачать</a>					
+				}
+				else
+				{
+					<button class="buy-app-button" @onclick=OnBuyButtonClick>@(_app.Price != 0 ? "Купить" : "Приобрести")</button>
+				}
 			</div>
 		</div>
 	}
@@ -51,16 +59,12 @@
 
 @code {
 	bool justBought = false;
+	bool owned = false;
 
 	[Parameter]
 	public string AppId { get; set; } = string.Empty;
 
 	AppDTO? _app;
-
-	protected Dictionary<string, string?> _appGetQueryParams = new()
-    {
-        {"appId", "" }
-    };
 
 	protected Dictionary<string, string?> _appAcquireQueryParams = new()
 	{
@@ -68,15 +72,18 @@
 	};
 
 	string acquireEndpoint = "https://localhost:7247/api/Apps/AcquireAppById";
-	string appsEndpoint = "https://localhost:7247/api/Apps/GetAppById";
 
 	protected override async Task OnInitializedAsync()
 	{
-		_appGetQueryParams["appId"] = AppId;
-		string appRequest = QueryHelpers.AddQueryString(appsEndpoint, _appGetQueryParams);
-		AppDTO? app = await httpClient.GetFromJsonAsync<AppDTO?>(appRequest);
+		AppDTO? app = await httpClient.GetFromJsonAsync<AppDTO?>($"https://localhost:7247/api/Apps/GetAppById?appId={AppId}");
 		if (app != null)
+		{
 			_app = app;
+
+			HttpResponseMessage responseMessage = await httpClient.GetAsync($"https://localhost:7247/api/Apps/IsOwned?appId={_app.AppId}");
+			if (responseMessage.IsSuccessStatusCode)
+				owned = true;
+		}
 	}
 
 	protected async Task OnBuyButtonClick()

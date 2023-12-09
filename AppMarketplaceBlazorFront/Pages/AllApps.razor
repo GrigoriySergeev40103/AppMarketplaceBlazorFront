@@ -30,7 +30,9 @@
                         <a href=@($"app_page/{_apps[i].AppId}")>
                             <div class="app-card">
                                 <img class="card-icon" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={_apps?[i].AppId}") />
-                                <div class="upper-card-info"><div class="card-text">@_apps[i].Name</div></div>
+                                <!--Null forgiving operator cuz analyzer is complaining at _apps possibly being null for some reason-->
+                                <!--(the check for null is in place)-->
+                                <div class="upper-card-info"><div class="card-text">@_apps![i].Name</div></div>
                                 <div class="lower-card-info">
                                     <img class="devoloper-icon" src=@($"https://localhost:7247/api/Users/GetUserAvatar?userId={_developers?[i].Id}") />
                                     <div class="lower-card-item">
