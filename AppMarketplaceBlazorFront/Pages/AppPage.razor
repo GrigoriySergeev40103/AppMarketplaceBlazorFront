@@ -80,9 +80,16 @@
 		{
 			_app = app;
 
-			HttpResponseMessage responseMessage = await httpClient.GetAsync($"https://localhost:7247/api/Apps/IsOwned?appId={_app.AppId}");
-			if (responseMessage.IsSuccessStatusCode)
-				owned = true;
+			try
+			{
+				HttpResponseMessage responseMessage = await httpClient.GetAsync($"https://localhost:7247/api/Apps/IsOwned?appId={_app.AppId}");
+				if (responseMessage.IsSuccessStatusCode)
+					owned = true;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
 		}
 	}
 
