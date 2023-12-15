@@ -31,7 +31,7 @@
 	@if(_app != null)
 	{
 		<div class="app-name-title">@_app.Name</div>
-		<div class="dev-name-title">@_app.DeveloperId</div>
+		<div class="dev-name-title"><b class="dev-name-decorator">by </b> @_developer?.UserName</div>
 		<div class="app-desc-body">
 			<div class="pic-desc-div">
 				<img class="app-pic" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={_app.AppId}") />
@@ -44,13 +44,16 @@
 					<div class="app-price">@(Decimal.Round(_app.Price, 2)) Руб</div>
 				</div>
 				<div class="spec-desc-acquire">@_app.SpecialDescription</div>
-				@if(owned)
+				@if(personalData.CurrentUser != null)
 				{
-					<a class="buy-app-button" href=@($"https://localhost:7247/api/Apps/DownloadAppById?appId={_app!.AppId}")>Скачать</a>					
-				}
-				else
-				{
-					<button class="buy-app-button" @onclick=OnBuyButtonClick>@(_app.Price != 0 ? "Купить" : "Приобрести")</button>
+					@if (owned)
+					{
+						<a class="buy-app-button" href=@($"https://localhost:7247/api/Apps/DownloadAppById?appId={_app!.AppId}")>Скачать</a>
+					}
+					else
+					{
+						<button class="buy-app-button" @onclick=OnBuyButtonClick>@(_app.Price != 0 ? "Купить" : "Приобрести")</button>
+					}
 				}
 			</div>
 		</div>
@@ -65,6 +68,7 @@
 	public string AppId { get; set; } = string.Empty;
 
 	AppDTO? _app;
+	UserDTO? _developer;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -75,6 +79,8 @@
 
 			try
 			{
+				_developer = await httpClient.GetFromJsonAsync<UserDTO>($"https://localhost:7247/api/Users/GetUserById?userId={_app.DeveloperId}");
+
 				HttpResponseMessage responseMessage = await httpClient.GetAsync($"https://localhost:7247/api/Apps/IsOwned?appId={_app.AppId}");
 				if (responseMessage.IsSuccessStatusCode)
 					owned = true;

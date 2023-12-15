@@ -2,7 +2,7 @@
     padding:20px;
     display:flex;
     flex-direction: row;
-    background: white;
+    background: black;
 }
 
 .login-creds-box{
@@ -11,7 +11,7 @@
 }
 
 .login-label{
-    color:black;
+    color:white;
     font-size:24px;
     font-style:normal;
     font-weight:700;
@@ -19,7 +19,7 @@
 }
 
 .credential-label {
-    color: #313135;
+    color: white;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
