@@ -92,6 +92,7 @@ a, .btn-link {
     text-align: center;
     font-weight: bold;
     inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    color:white;
 }
 
     .loading-progress-text:after {
