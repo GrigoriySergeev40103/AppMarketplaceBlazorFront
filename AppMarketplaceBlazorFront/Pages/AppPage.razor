@@ -66,13 +66,6 @@
 
 	AppDTO? _app;
 
-	protected Dictionary<string, string?> _appAcquireQueryParams = new()
-	{
-		{"appId", "" }
-	};
-
-	string acquireEndpoint = "https://localhost:7247/api/Apps/AcquireAppById";
-
 	protected override async Task OnInitializedAsync()
 	{
 		AppDTO? app = await httpClient.GetFromJsonAsync<AppDTO?>($"https://localhost:7247/api/Apps/GetAppById?appId={AppId}");
@@ -98,10 +91,7 @@
 		if (_app == null || personalData.CurrentUser == null)
 			return;
 
-		_appAcquireQueryParams["appId"] = AppId;
-		string acquireRequest = QueryHelpers.AddQueryString(acquireEndpoint, _appAcquireQueryParams);
-
-		HttpResponseMessage response = await httpClient.PostAsync(acquireRequest, null);
+		HttpResponseMessage response = await httpClient.PostAsync($"https://localhost:7247/api/Apps/AcquireAppById?appId={AppId}", null);
 
 		if(response.IsSuccessStatusCode)
 		{
