@@ -1,86 +1,119 @@
 ﻿@page "/my_apps"
 @using System.Text.Json
 @using AppMarketplaceBlazorFront.DTOs
-@using AppMarketplaceBlazorFront.Services
 @using Microsoft.AspNetCore.WebUtilities
+@using System.Collections.Frozen
 @inject HttpClient httpClient
-@inject PersonalData personalData;
+@inject IJSRuntime JS;
 
-<div class="app-market">
-    <img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
-    <div class="apps-categories-box">
-        <div class="categories-box">
-            <div class="category-label">Категории</div>
-            @if (_appCategories != null)
-            {
-                @for (int i = 0; i < _appCategories.Length; i++)
+<body>
+    <div class="app-market">
+        <img class="nice-frame" src="/AllAppsBeutyFrame.jpg" />
+        <div class="apps-categories-box">
+            <div class="categories-box">
+                <div class="category-label">Категории</div>
+                @if (_appCategories != null)
                 {
-                    <div class="checkbox">
-                        <input type="checkbox" class="form-check-input" id=@_appCategories[i].CategoryName />
-                        <label class="checkbox-text" for=@_appCategories[i].CategoryName>@_appCategories[i].CategoryName</label>
-                    </div>
-                }
-            }
-        </div>
-        <div class="app-cards">
-            @if (personalData.AcquiredApps != null)
-            {
-                @for (int i = 0; i < personalData.AcquiredApps.Count; i++)
-                {
-                    <a href=@($"app_page/{personalData.AcquiredApps[i].AppId}")>
-                        <div class="app-card">
-                            <img class="card-icon" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={personalData.AcquiredApps[i].AppId}") />
-                            <div class="upper-card-info"><div class="card-text">@personalData.AcquiredApps[i].Name</div></div>
-                            <div class="lower-card-info">
-                                <img class="devoloper-icon" src=@($"https://localhost:7247/api/Users/GetUserAvatar?userId={_developers?[i].Id}") />
-                                <div class="lower-card-item">
-                                    <div class="developer-label">Разработчик</div>
-                                    <div class="developer-name">@(_developers != null ? _developers[i].UserName : "")</div>
-                                </div>
-                                <div class="lower-card-item">
-                                    <div class="price-label">Цена</div>
-                                    <div class="card-text">@(Decimal.Round(personalData.AcquiredApps[i].Price, 2)) Руб</div>
-                                </div>
-                            </div>
+                    @for (int i = 0; i < _appCategories.Length; i++)
+                    {
+                        int j = i;
+                        <div class="checkbox">
+                            <input type="checkbox"
+                                   @onchange="@((args) => {
+                                    _categoryCheckedDict![_appCategories[j].CategoryName] = !_categoryCheckedDict![_appCategories[j].CategoryName];
+                                } )"
+                                   checked="@_categoryCheckedDict![_appCategories[i].CategoryName]"
+                                   class="form-check-input" id=@_appCategories[i].CategoryName />
+                            <label class="checkbox-text" for=@_appCategories[i].CategoryName>@_appCategories[i].CategoryName</label>
                         </div>
-                    </a>
+                    }
                 }
-            }
+            </div>
+            <div class="app-cards">
+                @if (_apps != null && _categoryCheckedDict != null)
+                {
+                    @for (int i = 0; i < _apps.Length; i++)
+                    {
+                        bool isChosen = _categoryCheckedDict[_apps[i].CategoryName];
+                        UserDTO? developer = _idDeveloperDict?[_apps[i].DeveloperId];
+                        @if (isChosen)
+                        {
+                            <a href=@($"app_page/{_apps[i].AppId}")>
+                                <div class="app-card">
+                                    <img class="card-icon" src=@($"https://localhost:7247/api/Apps/GetAppImage?appId={_apps?[i].AppId}") />
+                                    <!--Null forgiving operator cuz analyzer is complaining at _apps possibly being null for some reason-->
+                                    <!--(the check for null is in place)-->
+                                    <div class="upper-card-info">
+                                        <div class="card-text">@_apps![i].Name</div>
+                                    </div>
+                                    <div class="lower-card-info">
+                                        <img class="devoloper-icon" src=@($"https://localhost:7247/api/Users/GetUserAvatar?userId={developer?.Id}") />
+                                        <div class="lower-card-item">
+                                            <div class="developer-label">Разработчик</div>
+                                            <div class="developer-name">@(developer != null ? developer.UserName : "")</div>
+                                        </div>
+                                        <div class="lower-card-item">
+                                            <div class="price-label">Цена</div>
+                                            <div class="card-text">@(Decimal.Round(_apps[i].Price, 2)) Руб</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                }
+            </div>
         </div>
     </div>
-</div>
+</body>
 
 @code {
     AppCategory[]? _appCategories;
-    UserDTO[]? _developers = null;
+    AppDTO[]? _apps;
+    UserDTO[]? _uniqueDevs;
+    Dictionary<string, UserDTO>? _idDeveloperDict;
 
-    protected Dictionary<string, string?> _queryParams = new()
-    {
-        {"userId", "" }
-    };
+    protected Dictionary<string, bool>? _categoryCheckedDict;
 
     protected override async Task OnInitializedAsync()
     {
-        string acquiredAppsEndpoint = "https://localhost:7247/api/Apps/GetMyApps";
-        personalData.AcquiredApps = await httpClient.GetFromJsonAsync<List<AppDTO>>(acquiredAppsEndpoint);
-
         string categoriesEndpoint = "https://localhost:7247/api/AppCategories/GetAppCategories";
+        string appsEndpoint = "https://localhost:7247/api/Apps/GetMyApps";
+
         _appCategories = await httpClient.GetFromJsonAsync<AppCategory[]?>(categoriesEndpoint);
 
-        if (personalData.AcquiredApps != null)
+        if (_appCategories != null && _appCategories.Length != 0)
         {
-            string userEndpoint = "https://localhost:7247/api/Users/GetUserById";
-            _developers = new UserDTO[personalData.AcquiredApps.Count];
-
-            for (int i = 0; i < personalData.AcquiredApps.Count; i++)
+            _categoryCheckedDict = new(_appCategories.Length);
+            for (int i = 0; i < _appCategories.Length; i++)
             {
-                _queryParams["userId"] = personalData.AcquiredApps[i].DeveloperId;
-                string userRequest = QueryHelpers.AddQueryString(userEndpoint, _queryParams);
+                _categoryCheckedDict.Add(_appCategories[i].CategoryName, true);
+            }
+        }
 
-                UserDTO? developer = await httpClient.GetFromJsonAsync<UserDTO?>(userRequest);
-                if (developer != null)
+        _apps = await httpClient.GetFromJsonAsync<AppDTO[]?>(appsEndpoint);
+
+        if (_apps != null && _apps.Length != 0)
+        {
+            string[] queryUserIds = new string[_apps.Length];
+
+            for (int i = 0; i < _apps.Length; i++)
+            {
+                queryUserIds[i] = $"userIds={_apps[i].DeveloperId}";
+            }
+
+            string finalQuery = String.Join('&', queryUserIds);
+
+            _uniqueDevs = await httpClient.GetFromJsonAsync<UserDTO[]>
+                                                                ($"https://localhost:7247/api/Users/GetUsersByIds?{finalQuery}");
+
+            if (_uniqueDevs != null)
+            {
+                _idDeveloperDict = new(_uniqueDevs.Length);
+
+                for (int i = 0; i < _uniqueDevs.Length; i++)
                 {
-                    _developers[i] = developer;
+                    _idDeveloperDict.Add(_uniqueDevs[i].Id, _uniqueDevs[i]);
                 }
             }
         }

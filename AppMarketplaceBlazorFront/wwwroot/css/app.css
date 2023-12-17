@@ -162,6 +162,7 @@ code {
 .developer-name {
     color: white;
     font-size: 14px;
+    word-wrap:anywhere;
 }
 
 .devoloper-icon {

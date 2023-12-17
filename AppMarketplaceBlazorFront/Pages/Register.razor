@@ -1,5 +1,6 @@
 ﻿@page "/register"
 @using Microsoft.AspNetCore.WebUtilities
+@using System.Text.Json.Serialization
 @inject HttpClient httpClient
 @inject NavigationManager Navigation
 
@@ -9,6 +10,8 @@
 	<div class="login-div">
 		<div class="login-creds-box">
 			<div class="login-label">Создайте новый аккаунт!</div>
+			<div class="credential-label">Имя пользователя</div>
+			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="text" placeholder="Введите имя пользователя" @bind=registerDTO.Username />
 			<div class="credential-label">Адрес электронной почты</div>
 			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="email" placeholder="Введите электронную почту" @bind=registerDTO.Email />
 			<div class="credential-label">Пароль</div>
@@ -16,7 +19,16 @@
 			<button class="login-button" @onclick=SendLoginRequest disabled="@(isWaitingForAwnser)">
 				<i style="visibility: @(isWaitingForAwnser ? "visible" : "collapse")" class="fa fa-spinner fa-spin"></i>Зарегистрироваться
 			</button>
-			<div style="visibility: @(hasFailedAttempt ? "visible" : "collapse")" class="failed-login-info">Удостовертесь что введенные вами данные верны и попробуйте снова</div>
+			@if(_registrationErrors != null)
+			{
+				@foreach(string[] errorMsgs in _registrationErrors.Errors.Values)
+				{
+					for (int i = 0; i < errorMsgs.Length; i++)
+					{
+						<div class="failed-login-info">@errorMsgs[i]</div>
+					}
+				}
+			}
 		</div>
 	</div>
 </body>
@@ -24,6 +36,7 @@
 @code {
 	struct UserRegisterDTO
 	{
+		public string Username { get; set; }
 		public string Email { get; set; }
 		public string Password { get; set; }
 	}
@@ -32,6 +45,8 @@
 	bool isWaitingForAwnser = false;
 
 	UserRegisterDTO registerDTO = new();
+	ValidationProblemDetails? _registrationErrors;
+
 
 	public async Task SendLoginRequest()
 	{
@@ -46,8 +61,26 @@
 		}
 		else if(responseMessage.StatusCode == System.Net.HttpStatusCode.BadRequest)
 		{
+			_registrationErrors = await responseMessage.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+
 			hasFailedAttempt = true;
 			isWaitingForAwnser = false;
 		}
+	}
+
+	// This is to hold the response details when the controller returns a ValidationProblem result.
+	private class ValidationProblemDetails
+	{
+		[JsonPropertyName("status")]
+		public int? Status { get; set; }
+
+		[JsonPropertyName("title")]
+		public string Title { get; set; } = null!;
+
+		[JsonPropertyName("type")]
+		public string Type { get; set; } = null!;
+
+		[JsonPropertyName("errors")]
+		public IDictionary<string, string[]> Errors { get; set; } = null!;
 	}
 }

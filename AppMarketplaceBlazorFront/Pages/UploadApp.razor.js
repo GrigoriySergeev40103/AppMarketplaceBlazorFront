@@ -62,12 +62,40 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
 
     // Check if there are any previous uploads to continue.
     upload.findPreviousUploads().then(function (previousUploads) {
-        // Found previous uploads so we select the first one.
-        if (previousUploads.length) {
-            upload.resumeFromPreviousUpload(previousUploads[0])
+        // previousUploads is an array containing details about the previously started uploads.
+        // The objects in the array have following properties:
+        // - size: The upload's size in bytes
+        // - metadata: The metadata associated with the upload during its creation
+        // - creationTime: The timestamp when the upload was created
+
+        // We ask the end user if they want to resume one of those uploads or start a new one.
+        var chosenUpload = askToResumeUpload(previousUploads);
+
+        // If an upload has been chosen to be resumed, instruct the upload object to do so.
+        if (chosenUpload) {
+            upload.resumeFromPreviousUpload(chosenUpload);
         }
 
-        // Start the upload
-        upload.start()
+        // Finally start the upload requests.
+        upload.start();
     })
+}
+
+// Open a dialog box to the user where they can select whether they want to resume an upload
+// or instead create a new one.
+function askToResumeUpload(previousUploads) {
+    if (previousUploads.length === 0) return null;
+
+    var text = "You tried to upload this file previously at these times:\n\n";
+    previousUploads.forEach((previousUpload, index) => {
+        text += "[" + index + "] " + previousUpload.creationTime + "\n";
+    });
+    text += "\nEnter the corresponding number to resume an upload or press Cancel to start a new upload";
+
+    var answer = prompt(text);
+    var index = parseInt(answer, 10);
+
+    if (!isNaN(index) && previousUploads[index]) {
+        return previousUploads[index];
+    }
 }

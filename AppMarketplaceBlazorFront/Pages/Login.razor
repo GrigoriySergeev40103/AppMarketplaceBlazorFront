@@ -12,8 +12,8 @@
 	<div class="login-div">
 		<div class="login-creds-box">
 			<div class="login-label">Войдите в свой аккаунт!</div>
-			<div class="credential-label">Адрес электронной почты</div>
-			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="email" placeholder="Введите электронную почту" @bind=loginDTO.Email />
+			<div class="credential-label">Имя пользователя</div>
+			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="text" placeholder="Введите имя пользователя" @bind=loginDTO.Username />
 			<div class="credential-label">Пароль</div>
 			<input class="form-control" style="@(hasFailedAttempt ? "border: 2px solid red" : "")" type="password" placeholder="Введите ваш пароль" @bind=loginDTO.Password />
 			<button class="login-button" @onclick=SendLoginRequest disabled="@(isWaitingForAwnser)">
@@ -27,7 +27,7 @@
 @code {
 	struct UserLoginDTO
 	{
-		public string Email { get; set; }
+		public string Username { get; set; }
 		public string Password { get; set; }
 	}
 
