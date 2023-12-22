@@ -177,3 +177,22 @@
 .modal {
     background: #000000b2;
 }
+
+.pb-pause-unpause {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+#upload-pause-btn {
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.fa-play {
+    color: white
+}
+
+.fa-pause {
+    color: white
+}

@@ -1,5 +1,10 @@
+var currentUpload;
 
 export function UploadAppJs(filename, desc, special_desc, prc) {
+    if (currentUpload != null) {
+        return;
+    }
+
     const elem = document.getElementById("file-upload");
 
     // Get the selected file from the input element
@@ -13,7 +18,7 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
     const ext = fName.substring(lastDot + 1);
 
     // Create a new tus upload
-    var upload = new tus.Upload(file, {
+    currentUpload = new tus.Upload(file, {
         endpoint: 'https://localhost:7247/files',
         retryDelays: [0, 3000, 5000, 10000, 20000],
         metadata: {
@@ -42,9 +47,10 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
             progressVisDiv.className = "upload-pb-hide";
             var myModal = document.getElementById('upload_success-modal');
             myModal.style.display = 'block';
+
+            currentUpload = null;
         },
         onAfterResponse: function (req, res) {
-            var url = req.getURL()
             var value = res.getHeader("AppId")
             if (value != null) {
                 // Upload an image of an app
@@ -56,12 +62,17 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
                 xhr.open("POST", `https://localhost:7247/api/Apps/UpdateAppImage?appId=${value}`);
                 xhr.send(formData);
             }
-            console.log(`Request for ${url} responded with ${value}`)
         }
     })
 
+    const icon = document.getElementById("upload-pause-btn");
+
+    // remove possible previously registred handler?(i don't actually know js pepeLaugh)
+    icon.removeEventListener("click", pauseUnpauseClick);
+    icon.addEventListener("click", pauseUnpauseClick);
+
     // Check if there are any previous uploads to continue.
-    upload.findPreviousUploads().then(function (previousUploads) {
+    currentUpload.findPreviousUploads().then(function (previousUploads) {
         // previousUploads is an array containing details about the previously started uploads.
         // The objects in the array have following properties:
         // - size: The upload's size in bytes
@@ -73,11 +84,11 @@ export function UploadAppJs(filename, desc, special_desc, prc) {
 
         // If an upload has been chosen to be resumed, instruct the upload object to do so.
         if (chosenUpload) {
-            upload.resumeFromPreviousUpload(chosenUpload);
+            currentUpload.resumeFromPreviousUpload(chosenUpload);
         }
 
         // Finally start the upload requests.
-        upload.start();
+        currentUpload.start();
     })
 }
 
@@ -97,5 +108,28 @@ function askToResumeUpload(previousUploads) {
 
     if (!isNaN(index) && previousUploads[index]) {
         return previousUploads[index];
+    }
+}
+
+function startOrResumeUpload(upload) {
+    // Check if there are any previous uploads to continue.
+    upload.findPreviousUploads().then(function (previousUploads) {
+        // Found previous uploads so we select the first one.
+        if (previousUploads.length) {
+            upload.resumeFromPreviousUpload(previousUploads[0])
+        }
+
+        // Start the upload
+        upload.start()
+    })
+}
+
+function pauseUnpauseClick (evt) {
+    if (evt.currentTarget.className == "fas fa-pause fa-5x") {
+        currentUpload.abort();
+        evt.currentTarget.className = "fas fa-play fa-5x";
+    } else {
+        currentUpload.start();
+        evt.currentTarget.className = "fas fa-pause fa-5x";
     }
 }
