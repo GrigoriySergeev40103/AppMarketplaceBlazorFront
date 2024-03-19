@@ -93,28 +93,31 @@
 
         _apps = await httpClient.GetFromJsonAsync<AppDTO[]?>(appsEndpoint);
 
-        if(_apps != null)
+        if (_apps == null)
+            return;
+
+        if (_apps.Length == 0)
+            return;
+
+        string[] queryUserIds = new string[_apps.Length];
+
+        for (int i = 0; i < _apps.Length; i++)
         {
-            string[] queryUserIds = new string[_apps.Length];
+            queryUserIds[i] = $"userIds={_apps[i].DeveloperId}";
+        }
 
-            for (int i = 0; i < _apps.Length; i++)
+        string finalQuery = String.Join('&', queryUserIds);
+
+        _uniqueDevs = await httpClient.GetFromJsonAsync<UserDTO[]>
+                                                            ($"https://localhost:7247/api/Users/GetUsersByIds?{finalQuery}");
+
+        if (_uniqueDevs != null)
+        {
+            _idDeveloperDict = new(_uniqueDevs.Length);
+
+            for (int i = 0; i < _uniqueDevs.Length; i++)
             {
-                queryUserIds[i] = $"userIds={_apps[i].DeveloperId}";
-            }
-
-            string finalQuery = String.Join('&', queryUserIds);
-
-            _uniqueDevs = await httpClient.GetFromJsonAsync<UserDTO[]>
-                                                                ($"https://localhost:7247/api/Users/GetUsersByIds?{finalQuery}");
-
-            if(_uniqueDevs != null)
-            {
-                _idDeveloperDict = new(_uniqueDevs.Length);
-
-                for (int i = 0; i < _uniqueDevs.Length; i++)
-                {
-                    _idDeveloperDict.Add(_uniqueDevs[i].Id, _uniqueDevs[i]);
-                }
+                _idDeveloperDict.Add(_uniqueDevs[i].Id, _uniqueDevs[i]);
             }
         }
     }
